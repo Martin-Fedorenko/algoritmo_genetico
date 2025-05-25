@@ -1,3 +1,29 @@
+from config import *
+from criterios_aptitud import *
+import random
+import numpy as np
+
+# ------------------------------------------
+# FUNCIÓN DE APTITUD
+# ------------------------------------------
+
+# Simulamos datos para lingadas y estibas
+lingadas = [{
+    "id": i,
+    "orden": random.randint(1, 10),
+    "colada": random.randint(1, 5),
+    "producto": random.randint(1, 3),
+    "fecha_salida": random.randint(1, 30),
+    "centro_origen": random.randint(1, 5),
+    "centro_destino": random.randint(1, 5),
+    "volumen": random.uniform(0.5, 1.5)
+} for i in range(NUM_LINGADAS)]
+
+estibas = [{
+    "id": j,
+    "capacidad": 5.0,
+    "ubicacion": random.randint(1, 5)
+} for j in range(NUM_ESTIBAS)]
 
 
 # ------------------------------------------

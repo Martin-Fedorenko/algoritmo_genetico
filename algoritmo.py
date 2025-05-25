@@ -1,27 +1,19 @@
-import config
+from config import *
+from funcion_aptitud import *  # si necesitás todas sus funciones
+from criterios_aptitud import *  # idem
+
 import random
 import numpy as np
-from deap import base, creator, tools
+from deap import base, creator, tools, algorithms
 
-
-
-# Simulamos datos para lingadas y estibas
-lingadas = [{
-    "id": i,
-    "orden": random.randint(1, 10),
-    "colada": random.randint(1, 5),
-    "producto": random.randint(1, 3),
-    "fecha_salida": random.randint(1, 30),
-    "centro_origen": random.randint(1, 5),
-    "centro_destino": random.randint(1, 5),
-    "volumen": random.uniform(0.5, 1.5)
-} for i in range(NUM_LINGADAS)]
-
-estibas = [{
-    "id": j,
-    "capacidad": 5.0,
-    "ubicacion": random.randint(1, 5)
-} for j in range(NUM_ESTIBAS)]
+def mutar_individuo(individuo, indpb):
+    for i in range(len(individuo)):
+        if random.random() < indpb:
+            # Mutar estiba_id y nivel aleatoriamente
+            estiba_id = random.randint(0, NUM_ESTIBAS - 1)
+            nivel = random.randint(1, MAX_NIVELES)
+            individuo[i] = (estiba_id, nivel)
+    return individuo,
 
 
 #Inicializacion de deap
@@ -40,7 +32,8 @@ toolbox.register("population", tools.initRepeat, list, toolbox.individual)
 
 toolbox.register("evaluate", evaluar_individuo)
 toolbox.register("mate", tools.cxTwoPoint)
-toolbox.register("mutate", tools.mutUniformInt, low=[0, 1], up=[NUM_ESTIBAS - 1, MAX_NIVELES], indpb=0.2)
+#toolbox.register("mutate", tools.mutUniformInt, low=[0, 1], up=[NUM_ESTIBAS - 1, MAX_NIVELES], indpb=0.2)
+toolbox.register("mutate", mutar_individuo, indpb=0.2)
 toolbox.register("select", tools.selTournament, tournsize=3)
 
 # ------------------------------------------
@@ -54,7 +47,7 @@ def ejecutar_algoritmo_genetico(generaciones=50, tam_pob=100):
     stats.register("max", np.max)
     stats.register("avg", np.mean)
 
-    poblacion, log = tools.eaSimple(poblacion, toolbox,
+    poblacion, log = algorithms.eaSimple(poblacion, toolbox,
                                      cxpb=0.7, mutpb=0.2,
                                      ngen=generaciones,
                                      stats=stats, halloffame=hof,
