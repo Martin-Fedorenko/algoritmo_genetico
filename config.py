@@ -2,9 +2,12 @@
 # CONFIGURACIÓN GENERAL Y PARÁMETROS
 # ------------------------------------------
 
-NUM_LINGADAS = 100
-NUM_ESTIBAS = 40
-MAX_NIVELES = 5
+ARCHIVO_DATOS = r"datos.xlsx"
+HOJA_ESTIBAS = "Estibas"
+HOJA_LINGADAS = "Lingadas"
+NUM_LINGADAS = 77
+NUM_ESTIBAS = 68
+MAX_NIVELES_ESTIBA = 32
 
 # PESOS DE FUNCIÓN DE APTITUD
 N1 = 10  # Igualdad de orden, colada, producto

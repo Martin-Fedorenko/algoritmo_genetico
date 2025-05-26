@@ -1,17 +1,21 @@
 from config import *
 from funcion_aptitud import *
+from lingada import *
+from estiba import *
 import random
 import numpy as np
 from deap import base, creator, tools, algorithms
 
+# ------------------------------------------
+# FUNCIÓN DE MUTACIÓN
+# ------------------------------------------
+
 def mutar_individuo(individuo, indpb):
     for i in range(len(individuo)):
         if random.random() < indpb:
-            # Mutar estiba_id y nivel aleatoriamente
-            estiba_id = random.randint(0, NUM_ESTIBAS - 1)
-            nivel = random.randint(1, MAX_NIVELES)
-            individuo[i] = (estiba_id, nivel)
+            individuo[i] = random.randint(0, NUM_ESTIBAS - 1)
     return individuo,
+
 
 # ------------------------------------------
 # INICIALIZACIÓN DEL ALGORITMO
@@ -26,7 +30,7 @@ toolbox = base.Toolbox()
 # Habrá tantos genes como cantidad de lingadas. 
 # Y habrá tantos genes distintos como estibas.
 
-toolbox.register("gene", lambda: (random.randint(0, NUM_ESTIBAS - 1), random.randint(1, MAX_NIVELES)))
+toolbox.register("gene", lambda: (random.randint(0, NUM_ESTIBAS - 1)))
 toolbox.register("individual", tools.initRepeat, creator.Individual, toolbox.gene, n=NUM_LINGADAS)
 toolbox.register("population", tools.initRepeat, list, toolbox.individual)
 
@@ -60,5 +64,9 @@ def ejecutar_algoritmo_genetico(generaciones=50, tam_pob=100):
 if __name__ == "__main__":
     mejor_solucion, log = ejecutar_algoritmo_genetico()
     print("\nMejor asignación:")
-    for i, (estiba_id, nivel) in enumerate(mejor_solucion):
-        print(f"Lingada {i} → Estiba {estiba_id}, Nivel {nivel}")
+    resultado = reconstruir_niveles(mejor_solucion)
+    for i, estiba_id, nivel in resultado:
+        estiba_nombre = next(e.nombre for e in estibas if e.id == estiba_id)
+        print(f"Lingada {i} → Estiba '{estiba_nombre}', Nivel {nivel}")
+
+
