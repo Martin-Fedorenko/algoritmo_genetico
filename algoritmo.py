@@ -1,7 +1,5 @@
 from config import *
-from funcion_aptitud import *  # si necesitás todas sus funciones
-from criterios_aptitud import *  # idem
-
+from funcion_aptitud import *
 import random
 import numpy as np
 from deap import base, creator, tools, algorithms
@@ -15,10 +13,8 @@ def mutar_individuo(individuo, indpb):
             individuo[i] = (estiba_id, nivel)
     return individuo,
 
-
-#Inicializacion de deap
 # ------------------------------------------
-# REPRESENTACIÓN: INDIVIDUO = lista de (estiba_id, nivel)
+# INICIALIZACIÓN DEL ALGORITMO
 # ------------------------------------------
 
 creator.create("FitnessMax", base.Fitness, weights=(1.0,))
@@ -26,13 +22,16 @@ creator.create("Individual", list, fitness=creator.FitnessMax)
 
 toolbox = base.Toolbox()
 
+# CROMOSOMA: [ESTIBA_1, ESTIBA_2... ESTIBA_N] 
+# Habrá tantos genes como cantidad de lingadas. 
+# Y habrá tantos genes distintos como estibas.
+
 toolbox.register("gene", lambda: (random.randint(0, NUM_ESTIBAS - 1), random.randint(1, MAX_NIVELES)))
 toolbox.register("individual", tools.initRepeat, creator.Individual, toolbox.gene, n=NUM_LINGADAS)
 toolbox.register("population", tools.initRepeat, list, toolbox.individual)
 
 toolbox.register("evaluate", evaluar_individuo)
 toolbox.register("mate", tools.cxTwoPoint)
-#toolbox.register("mutate", tools.mutUniformInt, low=[0, 1], up=[NUM_ESTIBAS - 1, MAX_NIVELES], indpb=0.2)
 toolbox.register("mutate", mutar_individuo, indpb=0.2)
 toolbox.register("select", tools.selTournament, tournsize=3)
 
@@ -55,7 +54,7 @@ def ejecutar_algoritmo_genetico(generaciones=50, tam_pob=100):
     return hof[0], log
 
 # ------------------------------------------
-# EJECUTAR
+# MAIN
 # ------------------------------------------
 
 if __name__ == "__main__":
