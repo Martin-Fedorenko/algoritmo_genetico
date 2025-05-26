@@ -68,7 +68,7 @@ def cargar_estibas_con_lingadas_desde_excel(path_archivo, hoja):
                 piezas=fila["PIEZAS"],
                 acero=fila["ACERO"],
                 diametro=float(fila["DIAMETRO"]) if not pd.isna(fila["DIAMETRO"]) else 0.0,
-                fecha_stock=pd.to_datetime(fila["FCH_STOCK"], dayfirst=True, errors='coerce')               
+                fecha_stock=pd.to_datetime(fila["FCH_STOCK"], errors='coerce')               
             )
             estibas_dict[estiba_nombre].agregar_lingada(lingada)
         except Exception as e:
@@ -80,6 +80,8 @@ def cargar_estibas_con_lingadas_desde_excel(path_archivo, hoja):
         print(f"{estiba.nombre} → {len(estiba.lingadas)} lingadas @ {estiba.ubicacion}")
         for lingada in estiba.lingadas:
             print(f"  {lingada}")
+
+    print(f"\nTotal de estibas cargadas desde '{hoja}': {len(estibas)}\n")
 
     return estibas
 
@@ -104,15 +106,16 @@ def cargar_lingadas_desde_excel(path_archivo, hoja):
                 status=fila["STATUS"],
                 piezas=fila["PIECES"],
                 acero=fila["STEEL_GRADE_DESC"],
-                inicial_date_prg=pd.to_datetime(fila["INICIAL_DATE_PRG"], dayfirst=True, errors='coerce'),
-                finish_date_prg=pd.to_datetime(fila["FINISH_DATE_PRG"], dayfirst=True, errors='coerce')
+                inicial_date_prg=pd.to_datetime(fila["INICIAL_DATE_PRG"], errors='coerce'),
+                finish_date_prg=pd.to_datetime(fila["FINISH_DATE_PRG"], errors='coerce')
             )
             print(f"  {lingada}")
             lingadas.append(lingada)
         except Exception as e:
             print(f"Error en fila {i}: {e}")
 
-    print(f"\nTotal de lingadas cargadas desde '{hoja}': {len(lingadas)}")
+    print(f"\nTotal de lingadas cargadas desde '{hoja}': {len(lingadas)}\n")
+
     return lingadas
 
 
