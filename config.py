@@ -10,7 +10,7 @@ NUM_ESTIBAS = 68
 MAX_NIVELES_ESTIBA = 32
 
 # PESOS DE FUNCIÓN DE APTITUD
-N1 = 10  # Igualdad de orden, colada, producto
+N1 = 100 # Igualdad de orden, colada, producto
 N2 = 15  # Penalización por obstrucción
 N3 = 8   # Lingada grande en estiba vacía
 N4 = 6   # Lingada pequeña en estiba llena
