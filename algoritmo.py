@@ -1,21 +1,19 @@
 from config import *
-from funcion_aptitud import *
-from lingada import *
 from estiba import *
-import random
+from lingada import *
+from utils import *
 import numpy as np
+import random
+from funcion_aptitud import *
 from deap import base, creator, tools, algorithms
 
 # ------------------------------------------
-# FUNCIÓN DE MUTACIÓN
+#TO DO LIST
+#Cambiar las fechas de uso del excel
+#Cambiar las ubicaciones de las estibas
+#Cambiar las ubicaciones de los centros
+#Agregar grafico de los resultados
 # ------------------------------------------
-
-def mutar_individuo(individuo, indpb):
-    for i in range(len(individuo)):
-        if random.random() < indpb:
-            individuo[i] = random.randint(0, NUM_ESTIBAS - 1)
-    return individuo,
-
 
 # ------------------------------------------
 # INICIALIZACIÓN DEL ALGORITMO
@@ -26,9 +24,10 @@ creator.create("Individual", list, fitness=creator.FitnessMax)
 
 toolbox = base.Toolbox()
 
-# CROMOSOMA: [ESTIBA_1, ESTIBA_2... ESTIBA_N] 
-# Habrá tantos genes como cantidad de lingadas. 
-# Y habrá tantos genes distintos como estibas.
+#CROMOSOMA: [ESTIBA_1, ESTIBA_2... ESTIBA_N] 
+#Habrá tantos genes como cantidad de lingadas. 
+#Habrá tantos genes distintos como estibas.
+
 
 toolbox.register("gene", lambda: (random.randint(0, NUM_ESTIBAS - 1)))
 toolbox.register("individual", tools.initRepeat, creator.Individual, toolbox.gene, n=NUM_LINGADAS)
@@ -43,7 +42,7 @@ toolbox.register("select", tools.selTournament, tournsize=3)
 # EJECUCIÓN DEL ALGORITMO
 # ------------------------------------------
 
-def ejecutar_algoritmo_genetico(generaciones=50, tam_pob=100):
+def ejecutar_algoritmo_genetico(generaciones=20, tam_pob=50):
     poblacion = toolbox.population(n=tam_pob)
     hof = tools.HallOfFame(1)
     stats = tools.Statistics(lambda ind: ind.fitness.values[0])
@@ -69,4 +68,5 @@ if __name__ == "__main__":
         estiba_nombre = next(e.nombre for e in estibas if e.id == estiba_id)
         print(f"Lingada {i} → Estiba '{estiba_nombre}', Nivel {nivel}")
 
+    graficar_evolucion(log)
 

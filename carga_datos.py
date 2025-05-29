@@ -48,7 +48,6 @@ def cargar_estibas_con_lingadas_desde_excel(path_archivo, hoja):
             lingada = Lingada(
                 id=fila["LINGADA"],
                 estiba_nombre=fila["ESTIBA"],
-                nivel=fila["NIVEL"],
                 orden=fila["OP"],
                 estado=fila["ESTADO"],
                 colada=fila["COLADA"],
@@ -106,13 +105,9 @@ def cargar_lingadas_desde_excel(path_archivo, hoja):
 
     return lingadas
 
-
-
-
 # ------------------------------------------
 # CARGA INICIAL DE LINGADAS Y ESTIBAS
 # ------------------------------------------
-
 
 lingadas = cargar_lingadas_desde_excel(ARCHIVO_DATOS, HOJA_LINGADAS)
 NUM_LINGADAS = len(lingadas)

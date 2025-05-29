@@ -2,12 +2,11 @@
 # CONFIGURACIÓN GENERAL Y PARÁMETROS
 # ------------------------------------------
 
-ARCHIVO_DATOS = r"datos.xlsx"
+ARCHIVO_DATOS = r"datos_originales.xlsx"
 HOJA_ESTIBAS = "Estibas"
 HOJA_LINGADAS = "Lingadas"
-NUM_LINGADAS = 76
-NUM_ESTIBAS = 68
 MAX_NIVELES_ESTIBA = 32
+LADO_ZONA_CENTRO = 50
 
 # ------------------------------------------
 # CARGA DE CENTROS
@@ -23,10 +22,8 @@ CENTROS = {
 
 
 # PESOS DE FUNCIÓN DE APTITUD
-N1 = 100 # Igualdad de orden, colada, producto
+N1 = 100 # Agrupamiento
 N2 = 15  # Penalización por obstrucción
-N3 = 8   # Lingada grande en estiba vacía
-N4 = 6   # Lingada pequeña en estiba llena
+N3 = 8   # Cercania zona
+N4 = 6   # Distancia estiba - (destino + origen)
 N5 = 30  # Penalización por sobrecapacidad
-N6 = 10  # Puntaje por cercanía a centro siguiente
-N7 = 10  # Puntaje por ubicación respecto a origen/destino

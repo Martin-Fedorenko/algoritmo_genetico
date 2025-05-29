@@ -1,26 +1,14 @@
 from config import *
-import numpy as np
-from carga_datos import CENTROS
+from utils import *
 
 # ------------------------------------------
 # CRITERIOS DE APTITUD
 # ------------------------------------------
 
-def evaluar_obstruccion(lingada, otras_lingadas, nivel_actual):
-    score = 0
-    for otra_entry in otras_lingadas:
-        otra = otra_entry["lingada"]
-        nivel_otra = otra_entry["nivel"]
-
-        if otra.finish_date_prg and lingada.finish_date_prg:
-            if otra.finish_date_prg < lingada.finish_date_prg and nivel_otra > nivel_actual:
-                score -= N2 * (nivel_otra - nivel_actual)
-    return score
-
 def evaluar_agrupamiento(lingada, otras_lingadas):
     score = 0
     for otra_entry in otras_lingadas:
-        otra = otra_entry["lingada"]  # accedemos al objeto Lingada dentro del dict
+        otra = otra_entry["lingada"]
         if otra.orden == lingada.orden:
             score += N1
         if otra.colada == lingada.colada:
@@ -29,25 +17,44 @@ def evaluar_agrupamiento(lingada, otras_lingadas):
             score += N1
     return score
 
-def calcular_distancia(a, b):
-    def get_coords(valor):
-        if isinstance(valor, str) and valor in CENTROS:
-            return CENTROS[valor]
-        elif isinstance(valor, (tuple, list)) and len(valor) == 2:
-            return tuple(valor)
-        else:
-            raise ValueError(f"Ubicación inválida: {valor}")
+def evaluar_obstruccion(lingada, otras_lingadas, nivel_actual):
+    if not lingada.finish_date_prg:
+        return 0
 
-    a_coord = get_coords(a)
-    b_coord = get_coords(b)
-    
-    return ((a_coord[0] - b_coord[0])**2 + (a_coord[1] - b_coord[1])**2)**0.5
+    penalizacion_total = 0
 
-def evaluar_cercania_destino(lingada, estiba):
-    distancia = calcular_distancia(lingada.centro_destino, estiba.ubicacion)
-    return max(0, N6 - distancia)
+    for nivel_inferior, otra_entry in enumerate(otras_lingadas, start=1):
+        otra = otra_entry["lingada"]
+
+        if otra.finish_date_prg and otra.finish_date_prg < lingada.finish_date_prg:
+            penalizacion = (nivel_actual - nivel_inferior + 1) * N2
+            penalizacion_total -= penalizacion
+
+    return penalizacion_total
+
+def evaluar_cercania_zona(lingada, estiba):
+
+    x_centro, y_centro = CENTROS[lingada.centro_destino]
+    mitad_lado = LADO_ZONA_CENTRO / 2
+    x_min = x_centro - mitad_lado
+    x_max = x_centro + mitad_lado
+    y_min = y_centro - mitad_lado
+    y_max = y_centro + mitad_lado
+
+    x_estiba, y_estiba = estiba.ubicacion
+
+    if x_min <= x_estiba <= x_max and y_min <= y_estiba <= y_max:
+        return N3
+    return 0
 
 def evaluar_cercania_origen_destino(lingada, estiba):
     dist_origen = calcular_distancia(lingada.centro_origen, estiba.ubicacion)
     dist_destino = calcular_distancia(lingada.centro_destino, estiba.ubicacion)
-    return max(0, N7 - (dist_origen + dist_destino))
+    return max(0, N4 - (dist_origen + dist_destino))
+
+def evaluar_capacidad(nivel):
+
+    if nivel > MAX_NIVELES_ESTIBA:
+        return N5 * (nivel - MAX_NIVELES_ESTIBA)
+    return 0
+    
