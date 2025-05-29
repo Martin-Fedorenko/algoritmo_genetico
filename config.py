@@ -9,6 +9,19 @@ NUM_LINGADAS = 76
 NUM_ESTIBAS = 68
 MAX_NIVELES_ESTIBA = 32
 
+# ------------------------------------------
+# CARGA DE CENTROS
+# ------------------------------------------
+
+CENTROS = {
+    "LIN1": (100, 100),
+    "TRA2": (400, 300),
+    "TRA3": (150, 200),
+    "UTL3": (300, 100),
+    "LAC2": (200, 200)
+}
+
+
 # PESOS DE FUNCIÓN DE APTITUD
 N1 = 100 # Igualdad de orden, colada, producto
 N2 = 15  # Penalización por obstrucción
