@@ -22,4 +22,4 @@ class Lingada:
         self.finish_date_prg = pd.to_datetime(finish_date_prg, errors='coerce') if finish_date_prg else None
 
     def __repr__(self):
-        return f"Lingada(id={self.id}, Orden={self.orden}, colada={self.colada}, producto={self.producto}, piezas={self.piezas})"
+        return f"Lingada(id={self.id}, Orden={self.orden}, colada={self.colada}, producto={self.producto})"
