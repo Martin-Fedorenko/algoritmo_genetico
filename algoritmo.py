@@ -68,5 +68,8 @@ if __name__ == "__main__":
         estiba_nombre = next(e.nombre for e in estibas if e.id == estiba_id)
         print(f"Lingada {i} → Estiba '{estiba_nombre}', Nivel {nivel}")
 
+   
+    graficar_lingadas_por_estiba(lingadas, resultado)
     graficar_evolucion(log)
+
 

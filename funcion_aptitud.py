@@ -24,7 +24,7 @@ def evaluar_individuo(individuo):
         score += evaluar_obstruccion(lingada, estado["lingadas"], nivel)
         score += evaluar_cercania_origen_destino(lingada, estiba)
         score += evaluar_cercania_zona(lingada, estiba)
-        score -= evaluar_capacidad(nivel)
+        score += evaluar_capacidad(nivel)
 
         # Registrar la lingada con su nivel asignado
         estado["lingadas"].append({"lingada": lingada})

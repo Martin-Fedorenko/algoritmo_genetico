@@ -25,4 +25,5 @@ N1 = 100 # Agrupamiento
 N2 = 15  # Penalización por obstrucción
 N3 = 8   # Cercania zona
 N4 = 6   # Distancia estiba - (destino + origen)
-N5 = 30  # Penalización por sobrecapacidad
+N5 = 100  # Penalización por sobrecapacidad
+N6 = 70 # Capacidad
