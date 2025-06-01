@@ -8,11 +8,10 @@ from funcion_aptitud import *
 from deap import base, creator, tools, algorithms
 
 # ------------------------------------------
-#TO DO LIST
-#Cambiar las fechas de uso del excel
-#Cambiar las ubicaciones de las estibas
-#Cambiar las ubicaciones de los centros
-#Agregar grafico de los resultados
+# BIBLIOTECAS UTILIZADAS:
+#
+# pip install deap numpy pandas openpyxl matplotlib 
+#
 # ------------------------------------------
 
 # ------------------------------------------
