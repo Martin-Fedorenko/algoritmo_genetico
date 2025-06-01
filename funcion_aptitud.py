@@ -16,7 +16,7 @@ def evaluar_individuo(individuo):
         estiba = next(e for e in estibas if e.id == estiba_id)
         estado = estiba_estado[estiba_id]
 
-        # Nivel automático: siguiente nivel disponible
+        # Obtengo el último nivel de la estiba analizada
         nivel = len(estado["lingadas"]) + 1
 
         # Criterios de evaluación
@@ -26,7 +26,7 @@ def evaluar_individuo(individuo):
         score += evaluar_cercania_zona(lingada, estiba)
         score += evaluar_capacidad(nivel)
 
-        # Registrar la lingada con su nivel asignado
+        # Asigno temporalmente la lingada a la estiba analizada
         estado["lingadas"].append({"lingada": lingada})
 
     return (score,)

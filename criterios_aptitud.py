@@ -53,12 +53,9 @@ def evaluar_cercania_origen_destino(lingada, estiba):
     return max(0, N4 - (dist_origen + dist_destino))
 
 def evaluar_capacidad(nivel):
-    # Nivel 1 es menos ocupado, niveles más altos indican mayor ocupación
-    # Cuanto menor el nivel, mayor el puntaje (por ejemplo N6 es la constante para este criterio)
     if nivel <= MAX_NIVELES_ESTIBA:
         return N6 * (MAX_NIVELES_ESTIBA - nivel + 1)
     else:
-        # Penalizar si supera niveles permitidos (opcional)
         return -N5 * (nivel - MAX_NIVELES_ESTIBA)
 
     

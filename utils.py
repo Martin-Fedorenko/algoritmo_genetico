@@ -26,10 +26,9 @@ def calcular_distancia(a, b):
     return ((a_coord[0] - b_coord[0])**2 + (a_coord[1] - b_coord[1])**2)**0.5
 
 def reconstruir_niveles(individuo):
-    # Inicializar estado de estibas con lingadas cargadas (sin usar .nivel)
     estiba_estado = {
         e.id: {
-            "lingadas": [{"lingada": l} for l in e.lingadas]  # No consideramos el nivel original
+            "lingadas": [{"lingada": l} for l in e.lingadas] 
         }
         for e in estibas
     }
@@ -39,13 +38,10 @@ def reconstruir_niveles(individuo):
     for idx, (estiba_id, lingada) in enumerate(zip(individuo, lingadas)):
         estado = estiba_estado[estiba_id]
 
-        # Nivel es el siguiente número disponible (cantidad de lingadas ya acumuladas + 1)
         nivel = len(estado["lingadas"]) + 1
 
-        # Agregamos la nueva lingada al estado de la estiba
         estado["lingadas"].append({"lingada": lingada})
 
-        # Registramos el resultado con su nivel calculado
         resultado.append((idx, estiba_id, nivel))
 
     return resultado
@@ -69,34 +65,27 @@ def graficar_lingadas_por_estiba(lingadas, resultado_final):
     import matplotlib.pyplot as plt
     from collections import Counter
 
-    # Conteo inicial por nombre de estiba (antes)
     conteo_inicial = Counter()
     for estiba in estibas:
         conteo_inicial[estiba.nombre] += len(estiba.lingadas)
 
-    # Conteo final por nombre de estiba (nuevas asignaciones)
     conteo_final = Counter()
     for i, estiba_id, nivel in resultado_final:
         estiba_nombre = next(e.nombre for e in estibas if e.id == estiba_id)
         conteo_final[estiba_nombre] += 1
 
-    # Unir todas las estibas involucradas
     estibas_nombres = sorted(set(conteo_inicial.keys()).union(conteo_final.keys()))
 
-    # Valores para el gráfico
     valores_antes = [conteo_inicial.get(estiba, 0) for estiba in estibas_nombres]
     valores_despues = [conteo_final.get(estiba, 0) for estiba in estibas_nombres]
 
     x = range(len(estibas_nombres))
 
-    # Crear la figura
     plt.figure(figsize=(14, 6))
 
-    # Barras apiladas
     barras_antes = plt.bar(x, valores_antes, label='Lingadas ya asignadas (antes)', color='red')
     barras_despues = plt.bar(x, valores_despues, bottom=valores_antes, label='Nuevas asignaciones', color='yellow')
 
-    # Agregar etiquetas en cada barra
     for i in range(len(estibas_nombres)):
         total = valores_antes[i] + valores_despues[i]
 
@@ -107,7 +96,6 @@ def graficar_lingadas_por_estiba(lingadas, resultado_final):
         if total > 0:
             plt.text(i, total + 0.3, str(total), ha='center', va='bottom', fontsize=9, fontweight='bold')
 
-    # Etiquetas y formato
     plt.xticks(x, estibas_nombres, rotation=90)
     plt.xlabel("Estibas")
     plt.ylabel("Cantidad de lingadas")
@@ -116,6 +104,6 @@ def graficar_lingadas_por_estiba(lingadas, resultado_final):
     plt.tight_layout()
     plt.grid(axis='y', linestyle='--', alpha=0.4)
 
-    plt.ylim(0, 40)  # Limitar el eje Y hasta 40
+    plt.ylim(0, 40) 
 
     plt.show(block=False)
