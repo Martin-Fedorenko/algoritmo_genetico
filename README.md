@@ -1,13 +1,13 @@
 # algoritmo_genetico
 
 
-##Instalación de bibliotecas:
+### Instalación de bibliotecas:
 
 ```
 pip install deap numpy pandas openpyxl matplotlib
 ```
 
-##Generación de ejecutable en la carpeta "dist"
+### Generación de ejecutable en la carpeta "dist"
 
 ```
 cd algoritmo_genetico
