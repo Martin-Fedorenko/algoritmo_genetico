@@ -3,6 +3,9 @@ from carga_datos import *
 import matplotlib.pyplot as plt
 import random
 from collections import Counter
+import os
+import sys
+import subprocess
 
 
 def mutar_individuo(individuo, indpb):
@@ -46,7 +49,8 @@ def reconstruir_niveles(individuo):
 
     return resultado
 
-def graficar_evolucion(log):
+def graficar_evolucion(log, nombre_archivo="evolucion_fitness.png"):
+
     gen = log.select("gen") if hasattr(log, "select") else list(range(len(log)))
     max_fitness = log.select("max")
 
@@ -54,16 +58,22 @@ def graficar_evolucion(log):
     plt.plot(gen, max_fitness, marker="o", linestyle="-", color="blue", label="Fitness Máximo")
     plt.title("Evolución del Fitness Máximo por Generación")
     plt.xlabel("Generación")
-    plt.show(block=False)
     plt.ylabel("Fitness")
     plt.grid(True)
     plt.legend()
     plt.tight_layout()
-    plt.show()
 
-def graficar_lingadas_por_estiba(lingadas, resultado_final):
-    import matplotlib.pyplot as plt
-    from collections import Counter
+    plt.savefig(nombre_archivo)
+
+    try:
+        os.startfile(nombre_archivo)
+    except AttributeError:
+        subprocess.run(["open" if sys.platform == "darwin" else "xdg-open", nombre_archivo])
+
+    plt.close()
+
+
+def graficar_lingadas_por_estiba(lingadas, resultado_final, estibas, nombre_archivo="grafico_lingadas.png"):
 
     conteo_inicial = Counter()
     for estiba in estibas:
@@ -83,12 +93,11 @@ def graficar_lingadas_por_estiba(lingadas, resultado_final):
 
     plt.figure(figsize=(14, 6))
 
-    barras_antes = plt.bar(x, valores_antes, label='Lingadas ya asignadas (antes)', color='red')
-    barras_despues = plt.bar(x, valores_despues, bottom=valores_antes, label='Nuevas asignaciones', color='yellow')
+    plt.bar(x, valores_antes, label='Lingadas ya asignadas (antes)', color='red')
+    plt.bar(x, valores_despues, bottom=valores_antes, label='Nuevas asignaciones', color='yellow')
 
     for i in range(len(estibas_nombres)):
         total = valores_antes[i] + valores_despues[i]
-
         if valores_antes[i] > 0:
             plt.text(i, valores_antes[i]/2, str(valores_antes[i]), ha='center', va='center', fontsize=8)
         if valores_despues[i] > 0:
@@ -103,7 +112,13 @@ def graficar_lingadas_por_estiba(lingadas, resultado_final):
     plt.legend()
     plt.tight_layout()
     plt.grid(axis='y', linestyle='--', alpha=0.4)
+    plt.ylim(0, 40)
 
-    plt.ylim(0, 40) 
+    plt.savefig(nombre_archivo)
 
-    plt.show(block=False)
+    try:
+        os.startfile(nombre_archivo)
+    except AttributeError:
+        subprocess.run(["open" if sys.platform == "darwin" else "xdg-open", nombre_archivo])
+    
+    plt.close()

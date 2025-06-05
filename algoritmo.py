@@ -9,9 +9,12 @@ from deap import base, creator, tools, algorithms
 
 # ------------------------------------------
 # BIBLIOTECAS UTILIZADAS:
-#
 # pip install deap numpy pandas openpyxl matplotlib 
-#
+## ------------------------------------------
+
+## ------------------------------------------
+# GENERAR EJECUTABLE EN LA CARPETA DIST:
+# pyinstaller --onefile --icon=icono.png --add-data="datos_originales.xlsx;." algoritmo.py
 # ------------------------------------------
 
 # ------------------------------------------
@@ -68,7 +71,8 @@ if __name__ == "__main__":
         print(f"Lingada {i} → Estiba '{estiba_nombre}', Nivel {nivel}")
 
    
-    graficar_lingadas_por_estiba(lingadas, resultado)
-    graficar_evolucion(log)
+    graficar_lingadas_por_estiba(lingadas, resultado, estibas, nombre_archivo="grafico_lingadas.png")
+    graficar_evolucion(log, nombre_archivo="evolucion_fitness.png")
+
 
 
